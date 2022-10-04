@@ -1,4 +1,3 @@
-import { element } from 'prop-types';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Header from '../components/Header';
@@ -9,6 +8,7 @@ class Search extends React.Component {
     super();
     this.state = {
       artista: '',
+      nomeArtista: '',
       ButtonHab: false,
       artistaInfo: [],
     };
@@ -38,13 +38,14 @@ class Search extends React.Component {
     const { artista } = this.state;
     const artistaInfo = await searchAlbumsAPI(artista);
     this.setState({
+      nomeArtista: artista,
       artista: '',
       artistaInfo,
     });
   };
 
   render() {
-    const { artista, ButtonHab, artistaInfo } = this.state;
+    const { artista, ButtonHab, artistaInfo, nomeArtista } = this.state;
 
     return (
       <div data-testid="page-search">
@@ -70,21 +71,33 @@ class Search extends React.Component {
           Pesquisar
 
         </button>
-        <div>
-          {artistaInfo.length === 0 ? (<p>Nenhum álbum encontrado</p>) : (
-            artistaInfo.map((e, i) => (<>
-              <Link to={ `/album/${e.collectionId}` } data-testid={ `link-to-album-${e.collectionId}` }><img src={ e.artworkUrl100 } key={ i } /></Link>
-              {' '}
-              <p key={ i }>
-                Album 0
-                {i + 1}
-              </p>
-              {' '}
-              <p key={ i }>{e.artistName}</p>
-            </>))
-          )}
 
-        </div>
+        {artistaInfo.length === 0 ? (<p>Nenhum álbum foi encontrado</p>) : (
+          <>
+            <p>
+              Resultado de álbuns de:
+              {' '}
+              {nomeArtista}
+            </p>
+            {artistaInfo.map((e, i) => (
+              <div key={ i }>
+                <Link
+                  to={ `/album/${e.collectionId}` }
+                  data-testid={ `link-to-album-${e.collectionId}` }
+                >
+                  <img src={ e.artworkUrl100 } key={ i } alt="album" />
+
+                </Link>
+                {' '}
+                <p key={ i }>{e.collectionName}</p>
+                {' '}
+                <p key={ i }>{e.artistName}</p>
+                {' '}
+
+              </div>))}
+
+          </>
+        )}
 
       </div>
     );
