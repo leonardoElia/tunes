@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import Header from '../components/Header';
 import getMusics from '../services/musicsAPI';
 import MusicCard from '../components/MusicCard';
+import { addSong } from '../services/favoriteSongsAPI';
 
 class Album extends React.Component {
   constructor() {
@@ -10,8 +11,29 @@ class Album extends React.Component {
     this.state = {
       musicas: [],
       parar: false,
+      favorito: false,
     };
   }
+
+  //async adicionarMusica () {
+   // const {musicas}  = this.state
+   // const MusicFiltro =
+    //await addSong(objetoMusica);
+     //this.setState({
+      ////parar: false
+     //})
+    //} 
+
+  controleCheckbox = (event, idMusica) => {
+    const {musicas} = this.state;
+    const objMusica = musicas.find((e) => e.trackId === idMusica) ;
+   addSong(objMusica);
+    const {name, checked} = event.target;
+    this.setState({
+      [name]: checked,
+       parar: true,
+    })
+   }
 
   buscandoMusicas = async (id) => {
     const musicas = await getMusics(id);
@@ -21,15 +43,17 @@ class Album extends React.Component {
     });
   };
 
-  render() {
+  componentDidMount () {
     const { match } = this.props;
     const { params } = match;
     const { id } = params;
-    const { musicas, parar } = this.state;
+    this.buscandoMusicas(id);
+  }
+
+  render() {
+    
+    const { musicas, parar, favorito } = this.state;
     console.log(musicas);
-    if (parar === false) {
-      this.buscandoMusicas(id);
-    }
 
     return (
       <div data-testid="page-album">
@@ -40,14 +64,18 @@ class Album extends React.Component {
             <p data-testid="artist-name">{musicas[0].artistName}</p>
             <p data-testid="album-name">{musicas[0].collectionName}</p>
             {musicas.filter((e) => e.kind === 'song').map((e, i) => (
+          
               <MusicCard
                 key={ i }
                 nomeMusica={ e.trackName }
                 prevMusica={ e.previewUrl }
+                idMusica={e.trackId}
+                favorito = {favorito}
+                controleCheckbox = {this.controleCheckbox}
               />
             ))}
           </>
-        ) : (<p>carregando</p>)}
+        ) : (<p>Carregando...</p>)}
       </div>
     );
   }

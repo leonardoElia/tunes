@@ -5,7 +5,7 @@ import { getUser } from '../services/userAPI';
 class Header extends React.Component {
   constructor() {
     super();
-
+    this.componentDidMount = this.componentDidMount.bind(this);
     this.state = {
       infoUser: 'Carregando...',
     };
@@ -18,9 +18,12 @@ class Header extends React.Component {
     });
   };
 
+  componentDidMount () {
+   this.nomeUsuario()
+  }
+
   render() {
     const { infoUser } = this.state;
-    this.nomeUsuario();
     return (
       <header data-testid="header-component">
         <p data-testid="header-user-name">{infoUser}</p>
