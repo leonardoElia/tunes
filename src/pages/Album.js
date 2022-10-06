@@ -24,15 +24,19 @@ class Album extends React.Component {
      //})
     //} 
 
-  controleCheckbox = (event, idMusica) => {
-    const {musicas} = this.state;
-    const objMusica = musicas.find((e) => e.trackId === idMusica) ;
-   addSong(objMusica);
+  controleCheckbox = async (event, idMusica) => {
     const {name, checked} = event.target;
-    this.setState({
-      [name]: checked,
-       parar: true,
-    })
+    if(checked === true) {
+      this.setState({parar: false})
+      const {musicas} = this.state;
+      const objMusica = musicas.find((e) => e.trackId === idMusica) ;
+      await addSong(objMusica);
+      this.setState({
+        [name]: checked,
+         parar: true,
+      })
+    }
+   
    }
 
   buscandoMusicas = async (id) => {
