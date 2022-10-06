@@ -14,29 +14,21 @@ class Album extends React.Component {
       favorito: false,
     };
   }
-
-  //async adicionarMusica () {
-   // const {musicas}  = this.state
-   // const MusicFiltro =
-    //await addSong(objetoMusica);
-     //this.setState({
-      ////parar: false
-     //})
-    //} 
+  
 
   controleCheckbox = async (event, idMusica) => {
     const {name, checked} = event.target;
     if(checked === true) {
-      this.setState({parar: false})
       const {musicas} = this.state;
-      const objMusica = musicas.find((e) => e.trackId === idMusica) ;
-      await addSong(objMusica);
-      this.setState({
+      this.setState({parar: false})
+      const objMusica = musicas.find((e) => e.trackId === idMusica);
+     await addSong(objMusica);
+       this.setState({
         [name]: checked,
-         parar: true,
+        parar: true,
       })
     }
-   
+    
    }
 
   buscandoMusicas = async (id) => {
@@ -55,10 +47,7 @@ class Album extends React.Component {
   }
 
   render() {
-    
     const { musicas, parar, favorito } = this.state;
-    console.log(musicas);
-
     return (
       <div data-testid="page-album">
         <Header />
