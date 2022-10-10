@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import Header from '../components/Header';
 import getMusics from '../services/musicsAPI';
 import MusicCard from '../components/MusicCard';
-import { addSong } from '../services/favoriteSongsAPI';
+import { addSong, getFavoriteSongs } from '../services/favoriteSongsAPI';
 
 class Album extends React.Component {
   constructor() {
@@ -11,25 +11,41 @@ class Album extends React.Component {
     this.state = {
       musicas: [],
       parar: false,
-      favorito: false,
+      favoritosRecuperados: [],
     };
   }
-  
 
-  controleCheckbox = async (event, idMusica) => {
-    const {name, checked} = event.target;
-    if(checked === true) {
-      const {musicas} = this.state;
-      this.setState({parar: false})
-      const objMusica = musicas.find((e) => e.trackId === idMusica);
-     await addSong(objMusica);
-       this.setState({
-        [name]: checked,
-        parar: true,
-      })
-    }
-    
-   }
+  async componentDidMount() {
+    const { match } = this.props;
+    const { params } = match;
+    const { id } = params;
+    this.buscandoMusicas(id);
+    const retorno = await getFavoriteSongs();
+    this.setState({
+      favoritosRecuperados: retorno,
+    });
+  }
+
+  verificaCheck = (idMusica) => {
+    const { favoritosRecuperados } = this.state;
+    const retorno = favoritosRecuperados.some((e) => e.trackId === idMusica);
+    console.log(retorno);
+    console.log(idMusica);
+    return retorno;
+  };
+
+  controleCheckbox = async (idMusica) => {
+    const { musicas } = this.state;
+    this.setState({ parar: false });
+    const objMusica = musicas.find((e) => e.trackId === idMusica);
+    await addSong(objMusica);
+    const retorno = await getFavoriteSongs();
+    this.setState({
+      parar: true,
+      favoritosRecuperados: retorno,
+    });
+    this.verificaCheck(idMusica);
+  };
 
   buscandoMusicas = async (id) => {
     const musicas = await getMusics(id);
@@ -39,15 +55,8 @@ class Album extends React.Component {
     });
   };
 
-  componentDidMount () {
-    const { match } = this.props;
-    const { params } = match;
-    const { id } = params;
-    this.buscandoMusicas(id);
-  }
-
   render() {
-    const { musicas, parar, favorito } = this.state;
+    const { musicas, parar, favoritosRecuperados } = this.state;
     return (
       <div data-testid="page-album">
         <Header />
@@ -57,14 +66,16 @@ class Album extends React.Component {
             <p data-testid="artist-name">{musicas[0].artistName}</p>
             <p data-testid="album-name">{musicas[0].collectionName}</p>
             {musicas.filter((e) => e.kind === 'song').map((e, i) => (
-          
+
               <MusicCard
                 key={ i }
                 nomeMusica={ e.trackName }
                 prevMusica={ e.previewUrl }
-                idMusica={e.trackId}
-                favorito = {favorito}
-                controleCheckbox = {this.controleCheckbox}
+                idMusica={ e.trackId }
+                controleCheckbox={ this.controleCheckbox }
+                verificaCheck={ this.verificaCheck }
+                favoritosRecuperados={ favoritosRecuperados }
+
               />
             ))}
           </>

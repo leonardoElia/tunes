@@ -85,13 +85,13 @@ class Search extends React.Component {
                   to={ `/album/${e.collectionId}` }
                   data-testid={ `link-to-album-${e.collectionId}` }
                 >
-                  <img src={ e.artworkUrl100 } key={ i } alt="album" />
+                  <img src={ e.artworkUrl100 } alt="album" />
 
                 </Link>
                 {' '}
-                <p key={ i }>{e.collectionName}</p>
+                <p>{e.collectionName}</p>
                 {' '}
-                <p key={ i }>{e.artistName}</p>
+                <p>{e.artistName}</p>
                 {' '}
 
               </div>))}
