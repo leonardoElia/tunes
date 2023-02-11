@@ -4,6 +4,7 @@ import Header from '../components/Header';
 import getMusics from '../services/musicsAPI';
 import MusicCard from '../components/MusicCard';
 import { addSong, getFavoriteSongs } from '../services/favoriteSongsAPI';
+import Carregando from './carregando';
 
 class Album extends React.Component {
   constructor() {
@@ -58,13 +59,13 @@ class Album extends React.Component {
   render() {
     const { musicas, parar, favoritosRecuperados } = this.state;
     return (
-      <div data-testid="page-album">
+      <div className="pageAlbums">
         <Header />
         <h1>album</h1>
         {parar ? (
           <>
-            <p data-testid="artist-name">{musicas[0].artistName}</p>
-            <p data-testid="album-name">{musicas[0].collectionName}</p>
+            <center><p>{musicas[0].artistName}</p></center>
+            <center><p>{musicas[0].collectionName}</p></center>
             {musicas.filter((e) => e.kind === 'song').map((e, i) => (
 
               <MusicCard
@@ -79,7 +80,7 @@ class Album extends React.Component {
               />
             ))}
           </>
-        ) : (<p>Carregando...</p>)}
+        ) : (<Carregando />)}
       </div>
     );
   }

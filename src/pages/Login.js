@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { createUser } from '../services/userAPI';
 import Carregando from './carregando';
+import '../style/login.css';
+import logo from '../imagens/logo.jpg';
 
 const chacacteresMin = 3;
 
@@ -13,6 +15,10 @@ class Login extends React.Component {
       botaoHabilitacao: true,
       carregando: false,
     };
+  }
+
+  componentDidMount() {
+    document.body.style.backgroundColor = 'blue';
   }
 
   criacaoDeUsuario = () => {
@@ -49,20 +55,21 @@ class Login extends React.Component {
     const { carregando } = this.state;
     if (carregando === true) return <Carregando />;
     return (
-      <div data-testid="page-login">
-        <h1>Login</h1>
-        <label htmlFor="nome">
-          Nome
-          <input
-            data-testid="login-name-input"
-            type="text"
-            id="nome"
-            name="nome"
-            value={ nome }
-            onChange={ this.mudarEstado }
-          />
-        </label>
+      <div className="boxLogin">
+        <img src={ logo } alt="logo" className="logo" />
+        <input
+          className="inputNome"
+          data-testid="login-name-input"
+          type="text"
+          id="nome"
+          name="nome"
+          placeholder=" Escreva seu primeiro nome"
+          value={ nome }
+          onChange={ this.mudarEstado }
+        />
+
         <button
+          className="buttonEntrar"
           type="button"
           data-testid="login-submit-button"
           disabled={ botaoHabilitacao }

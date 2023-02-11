@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes, { arrayOf } from 'prop-types';
+import '../style/music.css';
 
 class MusicCard extends React.Component {
   render() {
@@ -7,27 +8,30 @@ class MusicCard extends React.Component {
       prevMusica, idMusica, controleCheckbox, favoritosRecuperados } = this.props;
     console.log(favoritosRecuperados);
     return (
-      <>
-        <p>{nomeMusica}</p>
-        <audio data-testid="audio-component" src={ prevMusica } controls>
-          <track kind="captions" />
-          O seu navegador não suporta o elemento
-          <code>audio</code>
-          .
-        </audio>
-        <label htmlFor="fav">
-          Favorita
-          <input
-            id="fav"
-            type="checkbox"
-            checked={ favoritosRecuperados.some((e) => e.trackId === idMusica) }
-            data-testid={ `checkbox-music-${idMusica}` }
-            onChange={ () => controleCheckbox(idMusica) }
-            name="favorito"
-          />
-        </label>
+      <center>
 
-      </>
+        <div className="Musica">
+          <p>{nomeMusica}</p>
+          <audio data-testid="audio-component" src={ prevMusica } controls>
+            <track kind="captions" />
+            O seu navegador não suporta o elemento
+            <code>audio</code>
+            .
+          </audio>
+          <label htmlFor="fav">
+            Favorita
+            <input
+              id="fav"
+              type="checkbox"
+              checked={ favoritosRecuperados.some((e) => e.trackId === idMusica) }
+              data-testid={ `checkbox-music-${idMusica}` }
+              onChange={ () => controleCheckbox(idMusica) }
+              name="favorito"
+            />
+          </label>
+
+        </div>
+      </center>
     );
   }
 }
