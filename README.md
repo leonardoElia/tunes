@@ -12,7 +12,7 @@ a oferecer.
 * css
 
 ## acesse o link para visualizar a aplicação
-[]()
+[Projeto Tunes](https://tunes-alpha.vercel.app/)
 
 ## como rodar o projeto localmente
 1. faça o clone desde repositorio 
