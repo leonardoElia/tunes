@@ -4,7 +4,7 @@
 Esse é o tunes meu primeiro projeto em react usando ciclo de vidas de componentes, e fazendo uma requisição a api em react. nessa aplicação eu uso uma 
 api que trás prévias de musicas de varios artistas e bandas, basta pesquisar o nome do artista ou da banda que a aplicação tunes  trará albums do mesmo, escolha o da sua prefêrencia e aproveite as pŕevias. <br>
 O tunes foi um projeto muito importante para que eu entende-se o cilco de vida que os componetes em react tem, e o aproveitamento de código que a bibilioteca pode
-oferecer.
+oferecer..,
 
 ## tecnologias e ferramentas utilizadas utilizadas
 * React
